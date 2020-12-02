@@ -23,7 +23,7 @@ def Day2Q1():
 		if letter_count >= lower_bound and letter_count <= upper_bound:
 			num_valid_passwords += 1
 
-	print("Number of valid passwords: " + str(num_valid_passwords))
+	print("Number of valid passwords (policy1): " + str(num_valid_passwords))
 
 
 def Day2Q2():
@@ -46,7 +46,7 @@ def Day2Q2():
 		if (not position1_check and position2_check) or (not position2_check and position1_check):
 			num_valid_passwords += 1
 
-	print("Number of valid passwords: " + str(num_valid_passwords))
+	print("Number of valid passwords (policy2): " + str(num_valid_passwords))
 
 
 
