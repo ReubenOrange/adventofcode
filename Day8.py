@@ -81,15 +81,15 @@ def Day8Q2(instructions: t.List[str]) -> int:
             set_size = len(positions_visited)
 
             if position >= len(instructions):
-                print("Action: ", action)
-                print("Size: ", size)
-                print("Position: ", position)
-                print("Instruction altered: ", i)
+                # print("Action: ", action)
+                # print("Size: ", size)
+                # print("Position: ", position)
+                # print("Instruction altered: ", i)
                 return accumulator
 
 
 if __name__ == "__main__":
     data = aocd.get_data(day=8, year=2020).splitlines()
-    # print("Part 1: ", Day8Q1(data))
+    print("Part 1: ", Day8Q1(data))
     print("Part 2: ", Day8Q2(data))
 # %%
