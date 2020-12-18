@@ -156,7 +156,7 @@ def Day11Q2(seat_layout: t.List[t.List]) -> int:
 
 
 if __name__ == "__main__":
-    seat_layout = [list(x) for x in aocd.get_data(day=11, year=2020, session="53616c7465645f5f1ef0db2edfc05aa72933e97f542429e8ebaed5385b1e021930ebff742b2c9aa6c8809341c2bbf184").splitlines()]
+    seat_layout = [list(x) for x in aocd.get_data(day=11, year=2020).splitlines()]
 
     print("Part 1: ", Day11Q1(seat_layout))
     print("Part 2: ", Day11Q2(seat_layout))
