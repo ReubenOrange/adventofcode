@@ -49,8 +49,6 @@ if __name__ == "__main__":
     two_lines = aocd.get_data(day=13, year=2020).splitlines()
     earliest_departure = int(two_lines[0])
     bus_ids = set(int(x) for x in two_lines[1].split(",") if x != "x")
-    # bus_ids.discard("x")
-    # bus_ids = set(int(x) for x in bus_ids)
     print("Part 1:", Day13Q1(earliest_departure, bus_ids))
 
     bus_ids = two_lines[1].split(",")
