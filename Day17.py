@@ -60,7 +60,6 @@ def get_hyper_neighbours(point: tuple()) -> set(tuple()):
 def Day17Q1(initial_state: t.List[t.List[str]]) -> int:
 
     point_set = create_point_set(initial_state)
-
     cycle = 0
 
     while cycle < 6:
@@ -95,7 +94,6 @@ def Day17Q1(initial_state: t.List[t.List[str]]) -> int:
 def Day17Q2(initial_state: t.List[t.List[str]]) -> int:
 
     point_set = create_hyper_point_set(initial_state)
-
     cycle = 0
 
     while cycle < 6:
