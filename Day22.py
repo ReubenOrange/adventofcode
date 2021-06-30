@@ -93,8 +93,7 @@ if __name__ == "__main__":
 
     data = aocd.get_data(
         day=22,
-        year=2020,
-        session="53616c7465645f5f92b4d7ed301c7b064f2954beded5adc32b23dc57e7e2bb3ea053fd5d02232721ec3b1022921a86e0",
+        year=2020
     )
 
     p1, p2 = data.split("\n\n")
