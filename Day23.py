@@ -119,10 +119,6 @@ def Day23Q2(l: t.List[int]) -> str:
         l2 = N[pick_up]
         l3 = N[N[pick_up]]
 
-        # cur = 3
-        # pick_up = N[cur] = N[3] = 8
-        # N[cur] = 2
-
         dest = ncups if cur == 1 else cur - 1
         while dest in [l1, l2, l3]:
             dest = ncups if dest == 1 else dest - 1
