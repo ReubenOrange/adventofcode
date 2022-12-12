@@ -1,97 +1,110 @@
 import aocd
 import typing as t
 from math import floor
-from string import ascii_lowercase
-from copy import deepcopy
 
 
-def shortest_path(
-    data: t.List[t.List[str]], start: t.Tuple[int], end: t.Tuple[int]
-) -> int:
+def DayQ1(data: t.List[str]) -> int:
 
-    visited_points = set([start])
-    possible_points = [set([start])]
+    monkey_list = []
+    inspections = [0] * len(data)
+    for monkey in data:
 
-    for i in range(1, len(data) * len(data[0])):
+        M = monkey.splitlines()
+        M_number = int(M[0][7])
+        M_items = [int(_) for _ in M[1][18:].split(", ")]
+        M_op1, M_op2, M_op3 = M[2][19:].split(" ")
+        M_test = int(M[3][21:])
+        M_true = int(M[4][29:])
+        M_false = int(M[5][30:])
 
-        possible_points.append(set())
+        monkey_list.append(
+            [M_number, M_items, M_op1, M_op2, M_op3, M_test, M_true, M_false]
+        )
 
-        for pos in possible_points[i - 1]:
+    for _ in range(20):
 
-            go_from = pos  # e.g. (20,0)
+        for i, monkey in enumerate(monkey_list):
 
-            go_from_height = ascii_lowercase.find(data[pos[0]][pos[1]])
+            for _ in range(len(monkey[1])):
 
-            # up down left right
-            directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+                # inspect
+                item = monkey[1].pop()
+                old = item
+                item = eval(monkey[2] + monkey[3] + monkey[4])
+                item = floor(item / 3)
+                inspections[i] += 1
 
-            for direction in directions:
-                y = go_from[0] + direction[0]
-                x = go_from[1] + direction[1]
+                # test
+                # throw
+                if item % monkey[5] == 0:
+                    monkey_list[monkey[6]][1] = monkey_list[monkey[6]][1] + [item]
+                else:
+                    monkey_list[monkey[7]][1] = monkey_list[monkey[7]][1] + [item]
 
-                if 0 <= y < len(data) and 0 <= x < len(data[0]):
-
-                    go_to_height = ascii_lowercase.find(data[y][x])
-                    if go_to_height - go_from_height <= 1:
-                        new_point = (
-                            go_from[0] + direction[0],
-                            go_from[1] + direction[1],
-                        )
-                        if new_point not in visited_points:
-                            possible_points[i].add(new_point)
-                            visited_points.add(new_point)
-                            if new_point == end:
-                                return i
-
-    return len(data) * len(data[0])  # max possible path length
-
-
-def find_start_end(data: t.List[t.List[str]]):
-
-    for i, row in enumerate(data):
-        for j, col in enumerate(row):
-            if col == "S":
-                start = (i, j)
-            if col == "E":
-                end = (i, j)
-
-    data[start[0]][start[1]] = "a"  # NOTE - this edits the list
-    data[end[0]][end[1]] = "z"
-
-    return start, end
-
-
-def DayQ1(data: t.List[t.List[str]]) -> int:
-
-    start, end = find_start_end(data)
-
-    return shortest_path(data, start, end)
+    sorted_inspections = sorted(inspections)
+    return sorted_inspections[-1] * sorted_inspections[-2]
 
 
 def DayQ2(data: t.List[str]) -> int:
 
-    starting_positions = [
-        (i, j)
-        for i in range(len(data))
-        for j in range(len(data[0]))
-        if data[i][j] == "S" or data[i][j] == "a"
-    ]
+    monkey_list = []
+    inspections = [0] * len(data)
+    for monkey in data:
 
-    _, end = find_start_end(data)
+        M = monkey.splitlines()
+        M_number = int(M[0][7])
+        M_items = [int(_) for _ in M[1][18:].split(", ")]
+        M_op1, M_op2, M_op3 = M[2][19:].split(" ")
+        M_test = int(M[3][21:])
+        M_true = int(M[4][29:])
+        M_false = int(M[5][30:])
 
-    path_lengths = [shortest_path(data, start, end) for start in starting_positions]
+        monkey_list.append(
+            [M_number, M_items, M_op1, M_op2, M_op3, M_test, M_true, M_false]
+        )
 
-    return min(path for path in path_lengths if path is not None)
+    divisor = 1
+    for monkey in monkey_list:
+        divisor *= monkey[5]
+
+    for _ in range(10000):
+
+        # print(_)
+        # print(monkey_list[0][1])
+
+        for i, monkey in enumerate(monkey_list):
+
+            for _ in range(len(monkey[1])):
+
+                # inspect
+                item = monkey[1].pop()
+                old = item
+                item = eval(monkey[2] + monkey[3] + monkey[4])
+
+                item = item % divisor
+                inspections[i] += 1
+
+                # test
+                # throw
+                if item % monkey[5] == 0:
+                    monkey_list[monkey[6]][1] = monkey_list[monkey[6]][1] + [item]
+                else:
+                    monkey_list[monkey[7]][1] = monkey_list[monkey[7]][1] + [item]
+
+    sorted_inspections = sorted(inspections)
+    return sorted_inspections[-1] * sorted_inspections[-2]
 
 
 if __name__ == "__main__":
 
     data = aocd.get_data(
-        day=12,
+        day=11,
         year=2022,
-    ).split("\n")
+    ).split("\n\n")
 
-    data = "Sabqponm\nabcryxxl\naccszExk\nacctuvwj\nabdefghi".split("\n")
+    # data = "Monkey 0:\n  Starting items: 79, 98\n  Operation: new = old * 19\n  Test: divisible by 23\n    If true: throw to monkey 2\n    If false: throw to monkey 3\n\nMonkey 1:\n  Starting items: 54, 65, 75, 74\n  Operation: new = old + 6\n  Test: divisible by 19\n    If true: throw to monkey 2\n    If false: throw to monkey 0\n\nMonkey 2:\n  Starting items: 79, 60, 97\n  Operation: new = old * old\n  Test: divisible by 13\n    If true: throw to monkey 1\n    If false: throw to monkey 3\n\nMonkey 3:\n  Starting items: 74\n  Operation: new = old + 3\n  Test: divisible by 17\n    If true: throw to monkey 0\n    If false: throw to monkey 1\n".split(
+    #    "\n\n"
+    # )
 
-    print("Part 1:", DayQ1([list(row) for row in data]))
-    print("Part 2:", DayQ2([list(row) for row in data]))
+    print("Part 1:", DayQ1(data))
+    print("Part 2:", DayQ2(data))
