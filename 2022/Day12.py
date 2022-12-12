@@ -1,8 +1,6 @@
 import aocd
 import typing as t
-from math import floor
 from string import ascii_lowercase
-from copy import deepcopy
 
 
 def shortest_path(
@@ -91,7 +89,7 @@ if __name__ == "__main__":
         year=2022,
     ).split("\n")
 
-    data = "Sabqponm\nabcryxxl\naccszExk\nacctuvwj\nabdefghi".split("\n")
+    # data = "Sabqponm\nabcryxxl\naccszExk\nacctuvwj\nabdefghi".split("\n")
 
     print("Part 1:", DayQ1([list(row) for row in data]))
     print("Part 2:", DayQ2([list(row) for row in data]))
