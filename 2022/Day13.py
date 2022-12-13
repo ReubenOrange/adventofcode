@@ -1,9 +1,6 @@
 import aocd
 import typing as t
-from math import floor
-from string import ascii_lowercase
 from functools import cmp_to_key
-from copy import deepcopy
 
 
 def compare_lists(x: t.List, y: t.List) -> bool:
