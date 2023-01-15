@@ -2,7 +2,7 @@ import aocd
 import typing as t
 
 
-def find_neighbours(cube: t.Tuple[int], cube_set: t.Set[t.Tuple[int]]) -> int:
+def find_neighbours(cube: t.Tuple[int]) -> int:
 
     dx = dy = dz = (-1, 1)
 
@@ -15,9 +15,7 @@ def find_neighbours(cube: t.Tuple[int], cube_set: t.Set[t.Tuple[int]]) -> int:
     for k in dz:
         neighbours.add((cube[0], cube[1], cube[2] + k))
 
-    neighbours &= cube_set
-
-    return len(neighbours)
+    return neighbours
 
 
 def DayQ1(data: t.List[str]) -> int:
@@ -28,7 +26,7 @@ def DayQ1(data: t.List[str]) -> int:
 
     for cube in cube_set:
 
-        surface_area += 6 - find_neighbours(cube, cube_set)
+        surface_area += 6 - len(find_neighbours(cube) & cube_set)
 
     return surface_area
 
@@ -63,15 +61,15 @@ def DayQ2(data: t.List[str]) -> int:
             neighbours = set()
 
             for i in dx:
-                neighbours.add((cube[0] + i, cube[1], cube[2])) if 0 <= cube[
+                neighbours.add((cube[0] + i, cube[1], cube[2])) if -1 <= cube[
                     0
                 ] + i <= max_x else None
             for j in dy:
-                neighbours.add((cube[0], cube[1] + j, cube[2])) if 0 <= cube[
+                neighbours.add((cube[0], cube[1] + j, cube[2])) if -1 <= cube[
                     1
                 ] + j <= max_y else None
             for k in dz:
-                neighbours.add((cube[0], cube[1], cube[2] + k)) if 0 <= cube[
+                neighbours.add((cube[0], cube[1], cube[2] + k)) if -1 <= cube[
                     2
                 ] + k <= max_z else None
 
@@ -81,7 +79,6 @@ def DayQ2(data: t.List[str]) -> int:
 
         if outside_points_size < len(outside_points):
             outside_points_size = len(outside_points)
-            print(len(outside_points))
         else:
             all_points_found = True
 
@@ -89,14 +86,7 @@ def DayQ2(data: t.List[str]) -> int:
 
     for cube in outside_points:
 
-        neighbours = set()
-
-        for i in dx:
-            neighbours.add((cube[0] + i, cube[1], cube[2]))
-        for j in dy:
-            neighbours.add((cube[0], cube[1] + j, cube[2]))
-        for k in dz:
-            neighbours.add((cube[0], cube[1], cube[2] + k))
+        neighbours = find_neighbours(cube)
 
         num_outside_points += len(neighbours & cube_set)
 
@@ -126,5 +116,5 @@ if __name__ == "__main__":
         "\n"
     )
 
-    print("Part 1:", DayQ1(test_data))
-    print("Part 2:", DayQ2(test_data))
+    print("Part 1:", DayQ1(data))
+    print("Part 2:", DayQ2(data))
